@@ -32,7 +32,7 @@ export function ControlBar({
   }
 
   return (
-    <div className="flex items-center justify-center gap-4">
+    <div className="flex items-center justify-center gap-3 md:gap-4">
       {/* Mute microphone button */}
       {isActive && (
         <motion.div
@@ -45,14 +45,14 @@ export function ControlBar({
             size="icon"
             onClick={handleMuteToggle}
             className={cn(
-              'rounded-full w-12 h-12',
+              'rounded-full w-10 h-10 md:w-12 md:h-12',
               isMuted && 'bg-red-500/20 border-red-500/50 text-red-400'
             )}
           >
             {isMuted ? (
-              <MicOff className="w-5 h-5" />
+              <MicOff className="w-4 h-4 md:w-5 md:h-5" />
             ) : (
-              <Mic className="w-5 h-5" />
+              <Mic className="w-4 h-4 md:w-5 md:h-5" />
             )}
           </Button>
         </motion.div>
@@ -67,19 +67,19 @@ export function ControlBar({
           <Button
             onClick={onStart}
             className={cn(
-              'rounded-full w-16 h-16 text-white',
+              'rounded-full w-14 h-14 md:w-16 md:h-16 text-white',
               'bg-gradient-to-r from-green-500 to-emerald-500',
               'hover:from-green-600 hover:to-emerald-600',
               'shadow-lg shadow-green-500/30'
             )}
           >
-            <Phone className="w-6 h-6" />
+            <Phone className="w-5 h-5 md:w-6 md:h-6" />
           </Button>
         ) : isConnecting ? (
           <Button
             disabled
             className={cn(
-              'rounded-full w-16 h-16 text-white',
+              'rounded-full w-14 h-14 md:w-16 md:h-16 text-white',
               'bg-gradient-to-r from-amber-500 to-orange-500'
             )}
           >
@@ -87,20 +87,20 @@ export function ControlBar({
               animate={{ rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
             >
-              <Phone className="w-6 h-6" />
+              <Phone className="w-5 h-5 md:w-6 md:h-6" />
             </motion.div>
           </Button>
         ) : (
           <Button
             onClick={onEnd}
             className={cn(
-              'rounded-full w-16 h-16 text-white',
+              'rounded-full w-14 h-14 md:w-16 md:h-16 text-white',
               'bg-gradient-to-r from-red-500 to-rose-500',
               'hover:from-red-600 hover:to-rose-600',
               'shadow-lg shadow-red-500/30'
             )}
           >
-            <PhoneOff className="w-6 h-6" />
+            <PhoneOff className="w-5 h-5 md:w-6 md:h-6" />
           </Button>
         )}
       </motion.div>
@@ -117,14 +117,14 @@ export function ControlBar({
             size="icon"
             onClick={() => setIsSpeakerMuted(!isSpeakerMuted)}
             className={cn(
-              'rounded-full w-12 h-12',
+              'rounded-full w-10 h-10 md:w-12 md:h-12',
               isSpeakerMuted && 'bg-red-500/20 border-red-500/50 text-red-400'
             )}
           >
             {isSpeakerMuted ? (
-              <VolumeX className="w-5 h-5" />
+              <VolumeX className="w-4 h-4 md:w-5 md:h-5" />
             ) : (
-              <Volume2 className="w-5 h-5" />
+              <Volume2 className="w-4 h-4 md:w-5 md:h-5" />
             )}
           </Button>
         </motion.div>

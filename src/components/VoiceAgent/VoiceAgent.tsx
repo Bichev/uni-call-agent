@@ -166,26 +166,26 @@ export function VoiceAgent() {
   return (
     <Card variant="glass" className="overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-purple-500/25">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 md:mb-6">
+        <div className="flex items-center gap-3 md:gap-4">
+          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-base md:text-lg shadow-lg shadow-purple-500/25 flex-shrink-0">
             A
           </div>
-          <div>
-            <h2 className="text-xl font-semibold text-white">
-              Aria <span className="text-slate-400 font-normal text-sm">AI Assistant</span>
+          <div className="min-w-0">
+            <h2 className="text-lg md:text-xl font-semibold text-white truncate">
+              Aria <span className="text-slate-400 font-normal text-xs md:text-sm">AI Assistant</span>
             </h2>
-            <p className="text-sm text-slate-400 mt-0.5">
-              {businessInfo.name} • {businessInfo.tagline}
+            <p className="text-xs md:text-sm text-slate-400 mt-0.5 truncate">
+              {businessInfo.name}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 md:gap-3 pl-13 sm:pl-0">
           {/* Connection status */}
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm">
             {conversationState === 'active' ? (
               <>
-                <Wifi className="w-4 h-4 text-green-400" />
+                <Wifi className="w-3.5 h-3.5 md:w-4 md:h-4 text-green-400" />
                 <span className="text-green-400">Connected</span>
               </>
             ) : conversationState === 'connecting' ? (
@@ -194,22 +194,22 @@ export function VoiceAgent() {
                   animate={{ opacity: [1, 0.5, 1] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 >
-                  <Wifi className="w-4 h-4 text-amber-400" />
+                  <Wifi className="w-3.5 h-3.5 md:w-4 md:h-4 text-amber-400" />
                 </motion.div>
                 <span className="text-amber-400">Connecting</span>
               </>
             ) : (
               <>
-                <WifiOff className="w-4 h-4 text-slate-500" />
-                <span className="text-slate-500">Offline</span>
+                <WifiOff className="w-3.5 h-3.5 md:w-4 md:h-4 text-slate-500" />
+                <span className="text-slate-500">Ready</span>
               </>
             )}
           </div>
 
           {/* Timer */}
           {conversationState === 'active' && (
-            <div className="flex items-center gap-1.5 text-sm text-slate-400 bg-slate-800/50 px-3 py-1 rounded-full">
-              <Clock className="w-3.5 h-3.5" />
+            <div className="flex items-center gap-1 md:gap-1.5 text-xs md:text-sm text-slate-400 bg-slate-800/50 px-2 md:px-3 py-1 rounded-full">
+              <Clock className="w-3 h-3 md:w-3.5 md:h-3.5" />
               <span className="font-mono">{formatTime(elapsedTime)}</span>
             </div>
           )}

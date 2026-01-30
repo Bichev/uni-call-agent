@@ -17,9 +17,9 @@ export function ConversationPanel() {
 
   if (messages.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-48 text-slate-500">
-        <Bot className="w-8 h-8 mb-2 opacity-50" />
-        <p className="text-sm">Conversation will appear here</p>
+      <div className="flex flex-col items-center justify-center h-32 md:h-48 text-slate-500">
+        <Bot className="w-6 h-6 md:w-8 md:h-8 mb-2 opacity-50" />
+        <p className="text-xs md:text-sm">Conversation will appear here</p>
       </div>
     )
   }
@@ -27,7 +27,7 @@ export function ConversationPanel() {
   return (
     <div 
       ref={scrollRef}
-      className="h-64 overflow-y-auto space-y-4 pr-2 scrollbar-thin"
+      className="h-48 md:h-64 overflow-y-auto space-y-3 md:space-y-4 pr-2 scrollbar-thin"
     >
       <AnimatePresence initial={false}>
         {messages.map((message) => (
@@ -44,32 +44,32 @@ export function ConversationPanel() {
           >
             {/* Avatar */}
             <div className={cn(
-              'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center',
+              'flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center',
               message.role === 'user' 
                 ? 'bg-blue-500/20 text-blue-400' 
                 : 'bg-purple-500/20 text-purple-400'
             )}>
               {message.role === 'user' ? (
-                <User className="w-4 h-4" />
+                <User className="w-3 h-3 md:w-4 md:h-4" />
               ) : (
-                <Bot className="w-4 h-4" />
+                <Bot className="w-3 h-3 md:w-4 md:h-4" />
               )}
             </div>
 
             {/* Message content */}
             <div className={cn(
-              'flex-1 max-w-[80%]',
+              'flex-1 max-w-[85%] md:max-w-[80%]',
               message.role === 'user' ? 'text-right' : 'text-left'
             )}>
               <div className={cn(
-                'inline-block px-4 py-2 rounded-2xl text-sm',
+                'inline-block px-3 md:px-4 py-1.5 md:py-2 rounded-2xl text-xs md:text-sm',
                 message.role === 'user'
                   ? 'bg-blue-500/20 text-blue-100 rounded-tr-sm'
                   : 'bg-slate-800 text-slate-200 rounded-tl-sm'
               )}>
                 {message.content}
               </div>
-              <div className="text-xs text-slate-600 mt-1 px-1">
+              <div className="text-[10px] md:text-xs text-slate-600 mt-0.5 md:mt-1 px-1">
                 {formatDate(message.timestamp)}
               </div>
             </div>
