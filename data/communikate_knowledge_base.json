@@ -1,0 +1,473 @@
+{
+  "metadata": {
+    "source": "https://www.communikatetoday.com",
+    "company_name": "CommuniKATE Design & Marketing LLC",
+    "scraped_date": "2026-01-30",
+    "version": "1.0",
+    "document_type": "company_knowledge_base"
+  },
+  "company_overview": {
+    "legal_name": "CommuniKATE Design & Marketing LLC",
+    "brand_name": "CommuniKATE",
+    "tagline": "CommuniKATE your Message Today",
+    "slogan": "SMALL MOVES. BIG WAVES.",
+    "description": "CommuniKATE is a creative agency delivering strategic brand stories, standout design, and marketing that moves you forward. They help businesses cut through the noise with design that's not just beautiful—but strategic, intentional, and built to create waves.",
+    "mission": "To help businesses read, write and communicate effectively, supporting families on the path to growth.",
+    "value_proposition": "Think of us as your crew—navigating branding, design, web, and marketing so your business sails further, faster.",
+    "unique_selling_points": [
+      "Strategy-first approach with no guesswork",
+      "Flexible fit from quick projects to full-scale builds",
+      "Proven, repeatable process from first draft to final delivery",
+      "Highly organized with files never lost and versions always tracked",
+      "Purpose-driven design with clear CTAs and audience targeting",
+      "Collaborative and easy to work with"
+    ],
+    "geographic_coverage": [
+      "Los Angeles, CA",
+      "Nashville, TN",
+      "Louisville, KY",
+      "Missoula, MT",
+      "Jacksonville, FL",
+      "United States (nationwide)"
+    ],
+    "platform": "Wix.com Website Builder"
+  },
+  "contact_information": {
+    "phone": "954.999.3814",
+    "email": null,
+    "website": "https://www.communikatetoday.com",
+    "booking_url": "https://www.communikatetoday.com/contact",
+    "social_media": {
+      "instagram": "https://www.instagram.com/communikatetoday",
+      "facebook": "https://www.facebook.com/communikatetoday",
+      "linkedin": "https://www.linkedin.com/company/communikatetoday"
+    },
+    "contact_form_fields": [
+      "First name (required)",
+      "Last name (required)",
+      "Email (required)",
+      "Company name (required)",
+      "Website (optional)",
+      "How can we support you? (required)",
+      "What do you need help with? (optional)"
+    ],
+    "support_options": [
+      "Branding / Logo",
+      "Website",
+      "Design Services",
+      "Print Services",
+      "Marketing Strategy",
+      "Other"
+    ],
+    "consultation": "FREE consultation available"
+  },
+  "leadership": {
+    "founder": {
+      "name": "Kate Reeve",
+      "title": "Founder, Strategist, Creative Captain",
+      "background": "Background in branding, design, and marketing strategy",
+      "expertise": [
+        "Big-picture strategic planning",
+        "Pixel-perfect design details",
+        "Branding",
+        "Web design",
+        "Marketing strategy"
+      ],
+      "client_experience": "Worked with companies across industries—from local nonprofits to national service brands",
+      "personal_interests": [
+        "Half-marathon runner",
+        "Mom",
+        "Coffee enthusiast"
+      ],
+      "philosophy": "Design isn't just what something looks like—it's how it works, how it moves people, and how it tells the story that matters."
+    }
+  },
+  "methodology": {
+    "framework_name": "The B3 Method",
+    "description": "At CommuniKATE, we apply thoughtful frameworks to give every project clarity and momentum.",
+    "pillars": [
+      {
+        "name": "BE SEEN",
+        "description": "Through eye-catching visuals & messaging that resonates"
+      },
+      {
+        "name": "BE UNDERSTOOD",
+        "description": "With clear positioning and user-focused storytelling"
+      },
+      {
+        "name": "BE SUCCESSFUL",
+        "description": "By aligning every touchpoint with your long-term goals"
+      }
+    ],
+    "approach": "Every brand's journey is unique, and your strategy should be too. No cookie-cutter solutions. Every plan is built with intention, grounded in research, and customized for your brand."
+  },
+  "services": {
+    "branding": {
+      "title": "Branding / Logo Design",
+      "description": "From subtle refreshes to bold transformations—aligned, consistent, and built to last.",
+      "key_question": "Do you stand out from the crowd? Your logo is the door to your brand experience.",
+      "process": [
+        "Get to know you and your business",
+        "Analyze your competitors",
+        "Create multiple logo concepts",
+        "Collaborative refinement of design and color schemes",
+        "Final product delivery"
+      ],
+      "deliverables": [
+        "Logo design",
+        "Brand refresh",
+        "Brand transformation",
+        "Brand identity"
+      ]
+    },
+    "websites": {
+      "title": "Website Design & Development",
+      "description": "Strategic, scalable, and fully optimized websites that work as hard as you do.",
+      "philosophy": "We design simple, compelling, and functional websites that make it easy for users to quickly find exactly what they're looking for.",
+      "key_elements": [
+        {
+          "name": "Clear Content",
+          "description": "Your brand story matters but can your audience understand your message?"
+        },
+        {
+          "name": "User Experience",
+          "description": "Can your target audience easily find the information they are looking for?"
+        },
+        {
+          "name": "Strategic Design",
+          "description": "Does your site reflect your brand guidelines and style?"
+        },
+        {
+          "name": "Call To Action",
+          "description": "What is the purpose of the site? Sign up for a consultation? Purchase a product?"
+        },
+        {
+          "name": "Search Engine Optimized",
+          "description": "Are you easily being found?"
+        }
+      ],
+      "approach": "Listening to clients, understanding target audience, and putting extensive online knowledge to work on a plan that improves business goals."
+    },
+    "design_services": {
+      "title": "Design Services",
+      "description": "From print to digital, we design the materials that bring your brand to life and move it forward.",
+      "tagline": "Strategic. Flexible. Built to Scale.",
+      "categories": {
+        "presentation_design": {
+          "items": [
+            "PowerPoint templates built for real-world use",
+            "Custom slide masters with clean, consistent layouts",
+            "Pitches, proposals, internal decks, and reports"
+          ]
+        },
+        "small_format_print": {
+          "items": [
+            "Annual reports, handbooks, sales packets, brochures",
+            "Flyers, postcards, and direct mailers",
+            "Corporate identity kits: business cards, letterhead, envelopes"
+          ]
+        },
+        "large_format_print": {
+          "items": [
+            "Trade show booths, backdrops, pull up banners, table skirts",
+            "Billboards, large format posters, and banners",
+            "Outdoor signage and point-of-purchase displays"
+          ]
+        },
+        "digital_ads": {
+          "items": [
+            "Display ads in all standard sizes",
+            "Designed to spec with bold CTAs and clear messaging",
+            "Built for performance—not just aesthetics"
+          ]
+        },
+        "social_and_digital_content": {
+          "items": [
+            "Branded social media templates",
+            "Email graphics, headers, and digital one-pagers",
+            "Designed to keep campaigns cohesive across platforms"
+          ]
+        },
+        "marketing_collateral": {
+          "items": [
+            "Leave-behinds, fact sheets, and sales one-pagers",
+            "Custom templates for recurring needs",
+            "Support pieces tailored to your brand and audience"
+          ]
+        }
+      }
+    },
+    "marketing_strategy": {
+      "title": "Marketing Strategy",
+      "description": "From planning and campaign ideation to audience analysis, our marketing services cover it all.",
+      "tagline": "From One-on-One Planning to Full-Scale Campaigns",
+      "philosophy": "Smart strategy starts with knowing where you're headed.",
+      "offerings": [
+        {
+          "name": "One-on-One Strategy Sessions",
+          "description": "Focused planning support to clarify your goals, outline your next steps, and make sure you're investing in the right efforts at the right time."
+        },
+        {
+          "name": "Messaging Concepts & Brand Positioning",
+          "description": "Craft compelling messaging that resonates. From tone of voice to taglines, we help you articulate what makes you stand out."
+        },
+        {
+          "name": "Integrated Marketing Communications (IMC)",
+          "description": "Build scalable, cross-platform plans that unify your message across digital, print, social, and more."
+        },
+        {
+          "name": "Target Market Analysis & Audience Insights",
+          "description": "Define or refine your audience—so you're speaking to the right people, in the right way, across the right platforms."
+        },
+        {
+          "name": "Campaign Ideation & Creative Direction",
+          "description": "Collaborative brainstorming and creative direction to turn your goals into action—whether it's a short-term push or a long-term plan."
+        },
+        {
+          "name": "Internal Communication Strategy & Tools",
+          "description": "Strengthen alignment inside your organization by building effective systems, templates, and tools that keep your team connected and on message."
+        }
+      ],
+      "approach_name": "Guided Momentum"
+    }
+  },
+  "target_clients": {
+    "segments": [
+      "Corporate Teams",
+      "Entrepreneurs",
+      "Agencies",
+      "Small & Mid Businesses"
+    ],
+    "industries": [
+      "Local nonprofits",
+      "National service brands",
+      "Various industries across the spectrum"
+    ]
+  },
+  "differentiators": {
+    "why_choose_us": [
+      {
+        "name": "Strategy First",
+        "description": "Everything we do starts with strategy and research—no guesswork."
+      },
+      {
+        "name": "Flexible Fit",
+        "description": "From quick projects to full-scale builds, we flex to match your needs."
+      },
+      {
+        "name": "Proven Process",
+        "description": "Every project follows a clear, repeatable path—from first draft to final delivery—keeping things on track and you in the loop."
+      },
+      {
+        "name": "Organized to the Core",
+        "description": "Files never lost, versions always tracked—organization is our superpower."
+      },
+      {
+        "name": "Designs That Work",
+        "description": "Every asset is built with intention: clear CTAs, audience targeting, and purpose-driven design that moves your business forward."
+      },
+      {
+        "name": "Vibe Matters",
+        "description": "We're easy to work with, collaborative, and we pass the vibe check."
+      }
+    ]
+  },
+  "associated_projects": {
+    "coast_to_coast_connections": {
+      "name": "Coast to Coast Connections",
+      "description": "A national network of trusted specialists developed by CommuniKATE to extend work beyond design and marketing.",
+      "purpose": "Help small businesses gain visibility, build relationships, and grow beyond their local markets—rooted in collaboration and community.",
+      "website": "https://www.connectcoast2coast.com",
+      "benefits": [
+        "Access to a nationwide network of vetted business specialists",
+        "Expanded visibility and cross-market collaboration",
+        "Educational workshops and curated networking events",
+        "A community-driven approach to sustainable growth"
+      ],
+      "resources": {
+        "events": "https://www.connectcoast2coast.com/event-list",
+        "partners": "https://www.connectcoast2coast.com/partners"
+      }
+    }
+  },
+  "testimonials": [
+    {
+      "author": "James Robinson",
+      "date": "2025-12-19",
+      "text": "I had a great time working with Kate on revamping my business brand logo. She first took her time to do research on who I am, why & how I run my business the way I do, then gave practical constructive criticism and wise suggestions. After a series of comparative analysis of other logos in the same industry (both local and national), we went over what I like and don't like, what embodies me and sets me apart from the competition. Then after creating multiple logos for me, she took her time with me to add in and take away different aspects of the logo and color schemes. Finally we had the final product that I absolutely LOVE & proud to rock every day... and all my family, friends, current and past clients love the new look as well!!! Thanks again Katie - looking forward to working on other projects together in the future!",
+      "service_mentioned": "Logo/Branding"
+    },
+    {
+      "author": "Amy Hales",
+      "date": "2025-10-28",
+      "text": "Kate is a powerhouse—her strategic vision and hands-on approach elevated everything. Thanks to her expertise, our website now authentically reflects the spirit and story behind our product. She took the time to walk us through her strategic marketing plan, sharing insights from her thorough competitor analysis and delivering a tailored solution that aligned perfectly with our goals.",
+      "service_mentioned": "Website, Marketing Strategy"
+    },
+    {
+      "author": "Joel Klar",
+      "date": "2025-09-07",
+      "text": "CommuniKATE has been a fantastic asset to our business. While I initially hesitated to invest in a website with a professional look, the work she completed has been invaluable. She's exceptionally easy to collaborate with and has a remarkable ability to create impactful designs that help our business stand out.",
+      "service_mentioned": "Website, Design"
+    },
+    {
+      "author": "Kris Holmes",
+      "date": "2025-09-04",
+      "text": "CommuniKATE donated her time to help the non-profit that I was running at the time. She is creative, professional, detail oriented, and the complete package. I highly recommend her for any of your marketing/design needs!",
+      "service_mentioned": "Non-profit, Marketing, Design"
+    },
+    {
+      "author": "Samantha Alphonso",
+      "date": "2025-09-04",
+      "text": "Kate has proven to be an invaluable asset in the growth of my business. Her expertise in web design has resulted in an outstanding website for my company, enabling me to effectively market information to both potential and repeat customers. Kate's remarkable talent lies in her ability to transform ideas into tangible realities like no other!",
+      "service_mentioned": "Web Design"
+    },
+    {
+      "author": "Ann Gillespie",
+      "date": "2025-09-04",
+      "text": "Kate always takes the time to understand the goal of the project before beginning the design work. She has high standards and a very organized approach to project management. Her designs elevate the message, her PPTs are sharp and her technical skill on deliverables always make my life easier! I fully trust her work and highly recommend her graphic design services.",
+      "service_mentioned": "Graphic Design, Presentations"
+    },
+    {
+      "author": "Ivy Anderson",
+      "date": "2025-08-15",
+      "text": "Kate is extremely talented and wonderful to work with!",
+      "service_mentioned": "General"
+    }
+  ],
+  "site_structure": {
+    "main_pages": [
+      {
+        "url": "https://www.communikatetoday.com",
+        "title": "Home"
+      },
+      {
+        "url": "https://www.communikatetoday.com/about",
+        "title": "About"
+      },
+      {
+        "url": "https://www.communikatetoday.com/contact",
+        "title": "Contact"
+      },
+      {
+        "url": "https://www.communikatetoday.com/logos",
+        "title": "Branding"
+      },
+      {
+        "url": "https://www.communikatetoday.com/websites",
+        "title": "Websites"
+      },
+      {
+        "url": "https://www.communikatetoday.com/project01",
+        "title": "Design Services"
+      },
+      {
+        "url": "https://www.communikatetoday.com/services-3",
+        "title": "Marketing Services"
+      }
+    ],
+    "additional_pages": [
+      {
+        "url": "https://www.communikatetoday.com/web-banners",
+        "title": "Web Banners & Digital Ads"
+      },
+      {
+        "url": "https://www.communikatetoday.com/books",
+        "title": "Books"
+      },
+      {
+        "url": "https://www.communikatetoday.com/forms-and-guides",
+        "title": "Forms & Guides"
+      },
+      {
+        "url": "https://www.communikatetoday.com/posters-and-flyers",
+        "title": "Posters and Flyers"
+      },
+      {
+        "url": "https://www.communikatetoday.com/business-cards",
+        "title": "Business Cards"
+      },
+      {
+        "url": "https://www.communikatetoday.com/blog",
+        "title": "Blog"
+      },
+      {
+        "url": "https://www.communikatetoday.com/book-online",
+        "title": "Book Online"
+      },
+      {
+        "url": "https://www.communikatetoday.com/shop",
+        "title": "Shop"
+      }
+    ]
+  },
+  "brand_assets": {
+    "primary_image": "https://static.wixstatic.com/media/233d06_a1fe9557128e4e1295e072b97a2b78b1~mv2.png",
+    "favicon": "https://static.wixstatic.com/media/233d06_6140480df23a442f90ef7abda86d25c4~mv2.jpg"
+  },
+  "faq_candidates": [
+    {
+      "question": "What services does CommuniKATE offer?",
+      "answer": "CommuniKATE offers four main service categories: Branding/Logo Design (brand refreshes and transformations), Website Design & Development (strategic, SEO-optimized websites), Design Services (print and digital design including presentations, collateral, and ads), and Marketing Strategy (from one-on-one consultations to full-scale campaign planning)."
+    },
+    {
+      "question": "Who is the founder of CommuniKATE?",
+      "answer": "Kate Reeve is the Founder, Strategist, and Creative Captain of CommuniKATE. She has a background in branding, design, and marketing strategy, and has worked with companies across industries from local nonprofits to national service brands."
+    },
+    {
+      "question": "What is the B3 Method?",
+      "answer": "The B3 Method is CommuniKATE's framework for project success. It consists of three pillars: BE SEEN (eye-catching visuals & messaging), BE UNDERSTOOD (clear positioning and user-focused storytelling), and BE SUCCESSFUL (aligning every touchpoint with long-term goals)."
+    },
+    {
+      "question": "What types of clients does CommuniKATE work with?",
+      "answer": "CommuniKATE works with Corporate Teams, Entrepreneurs, Agencies, and Small & Mid Businesses across various industries, from local nonprofits to national service brands."
+    },
+    {
+      "question": "Does CommuniKATE offer free consultations?",
+      "answer": "Yes, CommuniKATE offers free consultations. You can book one through their contact page at https://www.communikatetoday.com/contact"
+    },
+    {
+      "question": "What is Coast to Coast Connections?",
+      "answer": "Coast to Coast Connections is a national network of trusted specialists developed by CommuniKATE. It helps small businesses gain visibility, build relationships, and grow beyond their local markets through collaboration and community, offering access to vetted business specialists, networking events, and educational workshops."
+    },
+    {
+      "question": "How can I contact CommuniKATE?",
+      "answer": "You can contact CommuniKATE by phone at 954.999.3814, through their contact form at https://www.communikatetoday.com/contact, or via their social media channels on Instagram, Facebook, and LinkedIn."
+    },
+    {
+      "question": "What makes CommuniKATE different from other agencies?",
+      "answer": "CommuniKATE differentiates itself through: Strategy-first approach with no guesswork, flexibility from quick projects to full-scale builds, proven repeatable processes, exceptional organization, purpose-driven design with clear CTAs and audience targeting, and a collaborative, easy-to-work-with team culture."
+    }
+  ],
+  "semantic_tags": [
+    "creative agency",
+    "branding",
+    "logo design",
+    "web design",
+    "website development",
+    "marketing strategy",
+    "graphic design",
+    "digital marketing",
+    "brand identity",
+    "small business",
+    "entrepreneurship",
+    "corporate branding",
+    "design services",
+    "marketing consulting",
+    "SEO",
+    "user experience",
+    "presentation design",
+    "print design",
+    "digital advertising",
+    "social media marketing",
+    "campaign management",
+    "brand positioning",
+    "integrated marketing communications",
+    "IMC",
+    "United States",
+    "nationwide",
+    "Kate Reeve",
+    "CommuniKATE",
+    "B3 Method",
+    "Coast to Coast Connections"
+  ]
+}
