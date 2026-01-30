@@ -458,46 +458,40 @@ export class RealtimeClient {
         return
       }
 
-      console.log('📋 Requesting final summary from AI...')
+      console.log('📋 Requesting final lead capture and summary from AI...')
       
-      // First, explicitly request lead capture
-      const leadCaptureRequest = {
+      // Combined request for both functions
+      const finalRequest = {
         type: 'response.create',
         response: {
           modalities: ['text'],
-          instructions: `IMPORTANT: Call the capture_lead function NOW with any contact information from this conversation. Include: name (caller's name), email, phone, company, interest (what they wanted to discuss). Even if you only have partial info like just a name, call the function with what you have. This is required.`
+          instructions: `You MUST call BOTH of these functions right now:
+
+FUNCTION 1 - capture_lead:
+Call with ALL contact info gathered: name, email, phone, company, interest.
+Use whatever info you have, even partial.
+
+FUNCTION 2 - generate_summary:
+Call with these parameters:
+- topicsDiscussed: "${this.getTopicsFromContext()}"  
+- keyQuestions: main questions the caller asked
+- followUpActions: next steps like "schedule consultation", "send info", etc.
+- sentiment: "positive" if they seemed interested, "neutral" otherwise
+
+Call BOTH functions now. Do not generate any audio or text response.`
         }
       }
 
-      this.dataChannel.send(JSON.stringify(leadCaptureRequest))
+      this.dataChannel.send(JSON.stringify(finalRequest))
       
-      // After a short delay, request the summary
-      setTimeout(() => {
-        if (!this.dataChannel || this.dataChannel.readyState !== 'open') {
-          resolve()
-          return
-        }
-        
-        console.log('📋 Requesting conversation summary...')
-        
-        const summaryRequest = {
-          type: 'response.create',
-          response: {
-            modalities: ['text'],
-            instructions: `Call the generate_summary function with:
-- topicsDiscussed: comma-separated list of topics from this conversation
-- keyQuestions: comma-separated list of questions asked
-- followUpActions: comma-separated list of next steps agreed upon
-- sentiment: positive, neutral, or negative`
-          }
-        }
-
-        this.dataChannel.send(JSON.stringify(summaryRequest))
-        
-        // Give time for functions to process
-        setTimeout(resolve, 2000)
-      }, 1500)
+      // Give time for functions to process
+      setTimeout(resolve, 3500)
     })
+  }
+
+  private getTopicsFromContext(): string {
+    // Return common topics based on the business context
+    return 'branding, web design, marketing services, consultation'
   }
 
   async disconnect() {

@@ -94,6 +94,47 @@ function extractLeadFromMessages(messages: ConversationMessage[]): Partial<LeadD
   return lead
 }
 
+/**
+ * Generate a basic summary from messages as fallback
+ */
+function generateSummaryFromMessages(messages: ConversationMessage[]): Partial<ConversationSummary> {
+  const userMessages = messages.filter(m => m.role === 'user').map(m => m.content.toLowerCase())
+  const allText = userMessages.join(' ')
+  
+  const topics: string[] = []
+  const followUps: string[] = []
+  
+  // Detect topics from keywords
+  if (allText.includes('brand') || allText.includes('logo')) topics.push('branding')
+  if (allText.includes('web') || allText.includes('site')) topics.push('web design')
+  if (allText.includes('market') || allText.includes('advertis')) topics.push('marketing')
+  if (allText.includes('consult') || allText.includes('meeting') || allText.includes('schedule')) {
+    topics.push('consultation')
+    followUps.push('schedule consultation with Kate')
+  }
+  if (allText.includes('price') || allText.includes('cost') || allText.includes('quote')) {
+    topics.push('pricing')
+    followUps.push('send pricing information')
+  }
+  
+  // Detect sentiment
+  let sentiment: 'positive' | 'neutral' | 'negative' = 'neutral'
+  const positiveWords = ['yes', 'great', 'perfect', 'awesome', 'thanks', 'thank you', 'sounds good', 'interested']
+  const negativeWords = ['no', 'not interested', 'too expensive', 'cancel']
+  
+  const positiveCount = positiveWords.filter(w => allText.includes(w)).length
+  const negativeCount = negativeWords.filter(w => allText.includes(w)).length
+  
+  if (positiveCount > negativeCount) sentiment = 'positive'
+  else if (negativeCount > positiveCount) sentiment = 'negative'
+  
+  return {
+    topicsDiscussed: topics.length > 0 ? topics : ['general inquiry'],
+    followUpActions: followUps,
+    sentiment
+  }
+}
+
 export const useConversationStore = create<ConversationStore>()(
   persist(
     (set, get) => ({
@@ -171,18 +212,29 @@ export const useConversationStore = create<ConversationStore>()(
           ? Math.floor((Date.now() - state.startTime.getTime()) / 1000)
           : 0
         
-        // Update existing summary with actual duration/message count, or create default
+        // Generate fallback summary from messages
+        const fallbackSummary = generateSummaryFromMessages(state.messages)
+        
+        // Update existing summary with actual duration/message count, or use fallback
         const updatedSummary = state.summary 
           ? {
               ...state.summary,
+              // Only use fallback values if AI didn't provide them
+              topicsDiscussed: state.summary.topicsDiscussed?.length > 0 
+                ? state.summary.topicsDiscussed 
+                : fallbackSummary.topicsDiscussed || [],
+              followUpActions: state.summary.followUpActions?.length > 0 
+                ? state.summary.followUpActions 
+                : fallbackSummary.followUpActions || [],
+              sentiment: state.summary.sentiment || fallbackSummary.sentiment || 'neutral',
               duration,
               messageCount: state.messages.length
             }
           : {
-              topicsDiscussed: [],
+              topicsDiscussed: fallbackSummary.topicsDiscussed || [],
               keyQuestions: [],
-              followUpActions: [],
-              sentiment: 'neutral' as const,
+              followUpActions: fallbackSummary.followUpActions || [],
+              sentiment: fallbackSummary.sentiment || 'neutral' as const,
               duration,
               messageCount: state.messages.length
             }
