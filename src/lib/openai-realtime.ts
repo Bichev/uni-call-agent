@@ -128,8 +128,8 @@ export class RealtimeClient {
       this.peerConnection.ontrack = (event) => {
         const audio = new Audio()
         audio.srcObject = event.streams[0]
-        // Reduce volume slightly to help with echo on mobile
-        audio.volume = 0.9
+        // Lower volume to reduce echo on mobile speakers
+        audio.volume = 0.75
         audio.play().catch(console.error)
         
         // Store reference for potential muting
@@ -254,9 +254,9 @@ export class RealtimeClient {
         },
         turn_detection: {
           type: 'server_vad',
-          threshold: 0.6,  // Higher threshold to reduce echo pickup on mobile
-          prefix_padding_ms: 400,
-          silence_duration_ms: 700  // Longer silence to avoid interrupting itself
+          threshold: 0.8,  // Much higher threshold - only respond to clear speech
+          prefix_padding_ms: 500,
+          silence_duration_ms: 1000  // Wait 1 second of silence before responding
         },
         tools: getToolDefinitions()
       }
