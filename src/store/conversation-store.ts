@@ -117,17 +117,26 @@ export const useConversationStore = create<ConversationStore>()(
           ? Math.floor((Date.now() - state.startTime.getTime()) / 1000)
           : 0
         
+        // Update existing summary with actual duration/message count, or create default
+        const updatedSummary = state.summary 
+          ? {
+              ...state.summary,
+              duration,
+              messageCount: state.messages.length
+            }
+          : {
+              topicsDiscussed: [],
+              keyQuestions: [],
+              followUpActions: [],
+              sentiment: 'neutral' as const,
+              duration,
+              messageCount: state.messages.length
+            }
+        
         set({
           conversationState: 'ended',
           voiceActivity: 'idle',
-          summary: state.summary || {
-            topicsDiscussed: [],
-            keyQuestions: [],
-            followUpActions: [],
-            sentiment: 'neutral',
-            duration,
-            messageCount: state.messages.length
-          }
+          summary: updatedSummary
         })
       },
       

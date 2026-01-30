@@ -1,5 +1,5 @@
 import { buildSystemPrompt, getToolDefinitions } from './context-builder'
-import type { LeadData, ConversationSummary } from '../types'
+import type { LeadData, ConversationSummary, AIVoice } from '../types'
 
 export type RealtimeEventHandler = {
   onConnecting?: () => void
@@ -26,9 +26,18 @@ export class RealtimeClient {
   private handlers: RealtimeEventHandler = {}
   private isConnected = false
   private audioLevelInterval: number | null = null
+  private selectedVoice: AIVoice = 'alloy'
 
   constructor() {
     this.peerConnection = null
+  }
+
+  setVoice(voice: AIVoice) {
+    this.selectedVoice = voice
+  }
+
+  getVoice(): AIVoice {
+    return this.selectedVoice
   }
 
   setHandlers(handlers: RealtimeEventHandler) {
@@ -220,12 +229,14 @@ export class RealtimeClient {
       return
     }
 
+    console.log(`Configuring session with voice: ${this.selectedVoice}`)
+    
     const sessionConfig = {
       type: 'session.update',
       session: {
         modalities: ['text', 'audio'],
         instructions: buildSystemPrompt(),
-        voice: 'alloy',
+        voice: this.selectedVoice,
         input_audio_format: 'pcm16',
         output_audio_format: 'pcm16',
         input_audio_transcription: {

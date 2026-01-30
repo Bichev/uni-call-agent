@@ -6,10 +6,12 @@ import { GlowingOrb } from '@/components/ui/GlowingOrb'
 import { VoiceVisualizer } from './VoiceVisualizer'
 import { ConversationPanel } from './ConversationPanel'
 import { ControlBar } from './ControlBar'
+import { VoiceSelector } from './VoiceSelector'
 import { useConversationStore } from '@/store/conversation-store'
 import { getRealtimeClient } from '@/lib/openai-realtime'
 import { getBusinessInfo } from '@/lib/context-builder'
 import { formatTime } from '@/lib/utils'
+import type { AIVoice } from '@/types'
 
 export function VoiceAgent() {
   const {
@@ -31,6 +33,7 @@ export function VoiceAgent() {
   const [audioLevel, setAudioLevel] = useState(0)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [pendingTranscript, setPendingTranscript] = useState('')
+  const [selectedVoice, setSelectedVoice] = useState<AIVoice>('alloy')
 
   const businessInfo = getBusinessInfo()
 
@@ -114,13 +117,14 @@ export function VoiceAgent() {
     
     try {
       const client = getRealtimeClient()
+      client.setVoice(selectedVoice)
       await client.connect()
     } catch (error) {
       console.error('Failed to start conversation:', error)
       const errorMessage = error instanceof Error ? error.message : 'Failed to connect'
       setError(errorMessage)
     }
-  }, [startConversation, setError])
+  }, [startConversation, setError, selectedVoice])
 
   const handleEnd = useCallback(async () => {
     const client = getRealtimeClient()
@@ -283,6 +287,17 @@ export function VoiceAgent() {
       <div className="border-t border-slate-800/50 pt-6 mb-6">
         <ConversationPanel />
       </div>
+
+      {/* Voice selector - only show when idle */}
+      {conversationState === 'idle' && (
+        <div className="border-t border-slate-800/50 pt-4 pb-2">
+          <VoiceSelector
+            selectedVoice={selectedVoice}
+            onVoiceChange={setSelectedVoice}
+            disabled={conversationState !== 'idle'}
+          />
+        </div>
+      )}
 
       {/* Control bar */}
       <div className="border-t border-slate-800/50 pt-6">

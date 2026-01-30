@@ -10,6 +10,18 @@ export type ConversationState =
 // Voice Activity
 export type VoiceActivity = 'idle' | 'listening' | 'speaking' | 'thinking'
 
+// Available AI voices
+export type AIVoice = 'alloy' | 'echo' | 'shimmer' | 'ash' | 'coral' | 'sage'
+
+export const AI_VOICES: { id: AIVoice; name: string; description: string }[] = [
+  { id: 'alloy', name: 'Alloy', description: 'Neutral & balanced' },
+  { id: 'ash', name: 'Ash', description: 'Warm & friendly' },
+  { id: 'coral', name: 'Coral', description: 'Clear & professional' },
+  { id: 'echo', name: 'Echo', description: 'Soft & calm' },
+  { id: 'sage', name: 'Sage', description: 'Confident & articulate' },
+  { id: 'shimmer', name: 'Shimmer', description: 'Bright & energetic' },
+]
+
 // Message in conversation
 export interface ConversationMessage {
   id: string
