@@ -79,3 +79,4 @@ temp/
 *.key
 secrets.json
 credentials.json
+.vercel

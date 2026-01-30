@@ -27,6 +27,7 @@ export class RealtimeClient {
   private isConnected = false
   private audioLevelInterval: number | null = null
   private selectedVoice: AIVoice = 'alloy'
+  private hasGreeted = false
 
   constructor() {
     this.peerConnection = null
@@ -259,8 +260,15 @@ export class RealtimeClient {
   }
 
   private triggerGreeting() {
+    // Prevent duplicate greetings
+    if (this.hasGreeted) {
+      console.log('Already greeted, skipping...')
+      return
+    }
+    
     if (!this.dataChannel || this.dataChannel.readyState !== 'open') return
 
+    this.hasGreeted = true
     console.log('Triggering AI greeting...')
     
     // Send a response.create to make the AI speak first
@@ -534,6 +542,7 @@ Call BOTH functions now. Do not generate any audio or text response.`
     }
 
     this.isConnected = false
+    this.hasGreeted = false
     this.handlers.onDisconnected?.()
   }
 
