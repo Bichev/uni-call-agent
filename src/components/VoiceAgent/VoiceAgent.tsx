@@ -288,13 +288,13 @@ export function VoiceAgent() {
         <ConversationPanel />
       </div>
 
-      {/* Voice selector - only show when idle */}
-      {conversationState === 'idle' && (
+      {/* Voice selector - show when idle or ended to allow new call with different voice */}
+      {(conversationState === 'idle' || conversationState === 'ended') && (
         <div className="border-t border-slate-800/50 pt-4 pb-2">
           <VoiceSelector
             selectedVoice={selectedVoice}
             onVoiceChange={setSelectedVoice}
-            disabled={conversationState !== 'idle'}
+            disabled={false}
           />
         </div>
       )}
