@@ -148,7 +148,33 @@ export const useConversationStore = create<ConversationStore>()(
         messages: state.messages,
         leadData: state.leadData,
         summary: state.summary
-      })
+      }),
+      // Handle Date serialization/deserialization
+      storage: {
+        getItem: (name) => {
+          const str = localStorage.getItem(name)
+          if (!str) return null
+          try {
+            const data = JSON.parse(str)
+            // Convert timestamp strings back to Date objects
+            if (data.state?.messages) {
+              data.state.messages = data.state.messages.map((msg: ConversationMessage) => ({
+                ...msg,
+                timestamp: msg.timestamp ? new Date(msg.timestamp) : new Date()
+              }))
+            }
+            return data
+          } catch {
+            return null
+          }
+        },
+        setItem: (name, value) => {
+          localStorage.setItem(name, JSON.stringify(value))
+        },
+        removeItem: (name) => {
+          localStorage.removeItem(name)
+        }
+      }
     }
   )
 )

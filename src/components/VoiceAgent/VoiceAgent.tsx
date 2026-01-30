@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Wifi, WifiOff, Clock } from 'lucide-react'
+import { Wifi, WifiOff, Clock, AlertCircle, X } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
 import { GlowingOrb } from '@/components/ui/GlowingOrb'
 import { VoiceVisualizer } from './VoiceVisualizer'
@@ -16,6 +16,7 @@ export function VoiceAgent() {
     conversationState,
     voiceActivity,
     startTime,
+    error,
     setConversationState,
     setVoiceActivity,
     addMessage,
@@ -23,7 +24,8 @@ export function VoiceAgent() {
     setSummary,
     startConversation,
     endConversation,
-    setError
+    setError,
+    reset
   } = useConversationStore()
 
   const [audioLevel, setAudioLevel] = useState(0)
@@ -115,8 +117,10 @@ export function VoiceAgent() {
       await client.connect()
     } catch (error) {
       console.error('Failed to start conversation:', error)
+      const errorMessage = error instanceof Error ? error.message : 'Failed to connect'
+      setError(errorMessage)
     }
-  }, [startConversation])
+  }, [startConversation, setError])
 
   const handleEnd = useCallback(() => {
     const client = getRealtimeClient()
@@ -154,13 +158,18 @@ export function VoiceAgent() {
     <Card variant="glass" className="overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-xl font-semibold text-white">
-            {businessInfo.name} Voice Agent
-          </h2>
-          <p className="text-sm text-slate-400 mt-0.5">
-            {businessInfo.tagline}
-          </p>
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-purple-500/25">
+            A
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold text-white">
+              Aria <span className="text-slate-400 font-normal text-sm">AI Assistant</span>
+            </h2>
+            <p className="text-sm text-slate-400 mt-0.5">
+              {businessInfo.name} • {businessInfo.tagline}
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-3">
           {/* Connection status */}
@@ -197,6 +206,32 @@ export function VoiceAgent() {
           )}
         </div>
       </div>
+
+      {/* Error display */}
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mb-4"
+          >
+            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-red-400">Connection Error</p>
+                <p className="text-sm text-red-300/80 mt-1">{error}</p>
+              </div>
+              <button
+                onClick={() => { setError(null); reset(); }}
+                className="text-red-400 hover:text-red-300 p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main visualization area */}
       <div className="relative py-8">

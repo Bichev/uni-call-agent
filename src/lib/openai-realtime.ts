@@ -35,16 +35,58 @@ export class RealtimeClient {
     this.handlers = handlers
   }
 
+  private async getToken(): Promise<string> {
+    // In development, try the API endpoint first, then fall back to direct OpenAI call
+    // In production, always use the API endpoint
+    
+    try {
+      // Try the Vercel API endpoint first
+      const tokenResponse = await fetch('/api/token')
+      if (tokenResponse.ok) {
+        const { token } = await tokenResponse.json()
+        return token
+      }
+    } catch (e) {
+      console.log('API endpoint not available, trying direct method...')
+    }
+
+    // Development fallback: use environment variable directly
+    // Note: This is only for local development - in production, use the API route
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY
+    if (!apiKey) {
+      throw new Error('OpenAI API key not configured. Add VITE_OPENAI_API_KEY to .env.local for development, or deploy to Vercel with OPENAI_API_KEY.')
+    }
+
+    // Get ephemeral token directly from OpenAI (development only)
+    const response = await fetch('https://api.openai.com/v1/realtime/sessions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-realtime-preview-2024-12-17',
+        voice: 'alloy'
+      })
+    })
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}))
+      throw new Error(error.error?.message || 'Failed to get session token from OpenAI')
+    }
+
+    const data = await response.json()
+    console.log('Token response:', JSON.stringify(data, null, 2).substring(0, 200))
+    return data.client_secret?.value || data.value
+  }
+
   async connect(): Promise<void> {
     this.handlers.onConnecting?.()
 
     try {
-      // Get ephemeral token from our API
-      const tokenResponse = await fetch('/api/token')
-      if (!tokenResponse.ok) {
-        throw new Error('Failed to get session token')
-      }
-      const { token } = await tokenResponse.json()
+      // Get ephemeral token
+      const token = await this.getToken()
+      console.log('Got ephemeral token:', token?.substring(0, 20) + '...')
 
       // Get user media
       this.localStream = await navigator.mediaDevices.getUserMedia({
@@ -82,12 +124,15 @@ export class RealtimeClient {
       // Create and set local description
       const offer = await this.peerConnection.createOffer()
       await this.peerConnection.setLocalDescription(offer)
+      console.log('Local SDP offer created')
 
       // Wait for ICE gathering
       await this.waitForIceGathering()
+      console.log('ICE gathering complete')
 
-      // Send offer to OpenAI
-      const sdpResponse = await fetch('https://api.openai.com/v1/realtime/calls', {
+      // Send offer to OpenAI Realtime API
+      const model = 'gpt-4o-realtime-preview-2024-12-17'
+      const sdpResponse = await fetch(`https://api.openai.com/v1/realtime?model=${model}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -97,7 +142,9 @@ export class RealtimeClient {
       })
 
       if (!sdpResponse.ok) {
-        throw new Error('Failed to establish WebRTC connection')
+        const errorText = await sdpResponse.text().catch(() => '')
+        console.error('WebRTC connection error:', sdpResponse.status, errorText)
+        throw new Error(`Failed to establish WebRTC connection: ${sdpResponse.status}`)
       }
 
       const answerSdp = await sdpResponse.text()
@@ -176,21 +223,11 @@ export class RealtimeClient {
     const sessionConfig = {
       type: 'session.update',
       session: {
-        type: 'realtime',
-        model: 'gpt-realtime',
+        modalities: ['text', 'audio'],
         instructions: buildSystemPrompt(),
-        tools: getToolDefinitions(),
-        audio: {
-          input: {
-            format: 'pcm16',
-            sample_rate: 24000
-          },
-          output: {
-            voice: 'alloy',
-            format: 'pcm16',
-            sample_rate: 24000
-          }
-        },
+        voice: 'alloy',
+        input_audio_format: 'pcm16',
+        output_audio_format: 'pcm16',
         input_audio_transcription: {
           model: 'whisper-1'
         },
@@ -199,11 +236,32 @@ export class RealtimeClient {
           threshold: 0.5,
           prefix_padding_ms: 300,
           silence_duration_ms: 500
-        }
+        },
+        tools: getToolDefinitions()
       }
     }
 
     this.dataChannel.send(JSON.stringify(sessionConfig))
+    
+    // Trigger AI to introduce itself after a short delay
+    setTimeout(() => this.triggerGreeting(), 500)
+  }
+
+  private triggerGreeting() {
+    if (!this.dataChannel || this.dataChannel.readyState !== 'open') return
+
+    console.log('Triggering AI greeting...')
+    
+    // Send a response.create to make the AI speak first
+    const responseCreate = {
+      type: 'response.create',
+      response: {
+        modalities: ['text', 'audio'],
+        instructions: 'Introduce yourself as Aria, the AI assistant from CommuniKATE. Mention that you are an AI and offer to help with questions about branding, web design, and marketing services, or to schedule a consultation with Kate. Keep the greeting warm and concise (2-3 sentences max).'
+      }
+    }
+
+    this.dataChannel.send(JSON.stringify(responseCreate))
   }
 
   private handleServerEvent(event: Record<string, unknown>) {
@@ -266,9 +324,11 @@ export class RealtimeClient {
   private handleFunctionCall(event: { name: string; arguments: string }) {
     try {
       const args = JSON.parse(event.arguments)
+      console.log(`Function called: ${event.name}`, args)
 
       switch (event.name) {
         case 'capture_lead':
+          console.log('Lead captured:', args)
           this.handlers.onLeadCaptured?.(args as LeadData)
           break
 
@@ -281,12 +341,18 @@ export class RealtimeClient {
             duration: 0,
             messageCount: 0
           }
+          console.log('Summary generated:', summary)
           this.handlers.onSummaryGenerated?.(summary)
           break
 
         case 'schedule_callback':
-          // Handle callback scheduling
+          // Handle callback scheduling - add to lead notes
           console.log('Callback scheduled:', args)
+          const meetingNote = `Meeting requested: ${args.reason || 'Consultation'}${args.preferredDate ? ` on ${args.preferredDate}` : ''}${args.preferredTime ? ` at ${args.preferredTime}` : ''}`
+          this.handlers.onLeadCaptured?.({ 
+            notes: meetingNote,
+            preferredTime: args.preferredTime || args.preferredDate
+          } as LeadData)
           break
       }
     } catch (error) {

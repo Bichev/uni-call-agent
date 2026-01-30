@@ -25,28 +25,15 @@ export default async function handler(request: Request) {
 
   try {
     // Request an ephemeral token from OpenAI
-    const response = await fetch('https://api.openai.com/v1/realtime/client_secrets', {
+    const response = await fetch('https://api.openai.com/v1/realtime/sessions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        session: {
-          type: 'realtime',
-          model: 'gpt-realtime',
-          audio: {
-            input: {
-              format: 'pcm16',
-              sample_rate: 24000
-            },
-            output: {
-              voice: 'alloy',
-              format: 'pcm16',
-              sample_rate: 24000
-            }
-          }
-        }
+        model: 'gpt-4o-realtime-preview-2024-12-17',
+        voice: 'alloy'
       })
     })
 
@@ -65,9 +52,11 @@ export default async function handler(request: Request) {
 
     const data = await response.json()
 
-    // Return the ephemeral token
+    // Return the ephemeral token (handle both old and new API response formats)
+    const token = data.client_secret?.value || data.value
+    
     return new Response(JSON.stringify({
-      token: data.value,
+      token: token,
       expiresAt: Date.now() + (60 * 1000) // Token expires in 60 seconds
     }), {
       status: 200,
