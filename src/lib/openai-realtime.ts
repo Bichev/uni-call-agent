@@ -327,16 +327,32 @@ export class RealtimeClient {
         break
 
       case 'response.function_call_arguments.done':
-        console.log('Function call event received:', JSON.stringify(event, null, 2))
+        console.log('📞 Function call event received:', JSON.stringify(event, null, 2))
         this.handleFunctionCall(event as { name: string; arguments: string; call_id?: string })
+        break
+
+      // Function call from output item
+      case 'response.output_item.done':
+        const outputItem = (event as { item?: { type?: string; name?: string; arguments?: string; call_id?: string } }).item
+        if (outputItem?.type === 'function_call' && outputItem.name) {
+          console.log('📞 Function call from response.output_item.done:', outputItem)
+          this.handleFunctionCall({ name: outputItem.name, arguments: outputItem.arguments || '{}' })
+        }
         break
 
       // Alternative function call event format
       case 'conversation.item.created':
         const item = (event as { item?: { type?: string; name?: string; arguments?: string; call_id?: string } }).item
         if (item?.type === 'function_call' && item.name) {
-          console.log('Function call from conversation.item.created:', item)
+          console.log('📞 Function call from conversation.item.created:', item)
           this.handleFunctionCall({ name: item.name, arguments: item.arguments || '{}' })
+        }
+        break
+
+      // Log all unhandled events for debugging
+      default:
+        if (type?.includes('function') || type?.includes('tool')) {
+          console.log('📞 Unhandled function/tool event:', type, event)
         }
         break
 
@@ -442,29 +458,45 @@ export class RealtimeClient {
         return
       }
 
-      console.log('Requesting final summary from AI...')
+      console.log('📋 Requesting final summary from AI...')
       
-      // Send a response.create with instructions to call the functions
-      const summaryRequest = {
+      // First, explicitly request lead capture
+      const leadCaptureRequest = {
         type: 'response.create',
         response: {
-          modalities: ['text'], // No audio for this final request
-          instructions: `The conversation is ending. You MUST immediately:
-1. Call the capture_lead function with ALL the contact information gathered during this conversation (name, email, phone, company, interest, preferred contact time). If you don't have some fields, leave them empty but include what you do have.
-2. Call the generate_summary function with:
-   - topicsDiscussed: comma-separated list of main topics
-   - keyQuestions: comma-separated list of questions the caller asked
-   - followUpActions: comma-separated list of next steps
-   - sentiment: positive, neutral, or negative based on the conversation
-
-Do NOT speak or generate audio. Just call both functions with the collected information.`
+          modalities: ['text'],
+          instructions: `IMPORTANT: Call the capture_lead function NOW with any contact information from this conversation. Include: name (caller's name), email, phone, company, interest (what they wanted to discuss). Even if you only have partial info like just a name, call the function with what you have. This is required.`
         }
       }
 
-      this.dataChannel.send(JSON.stringify(summaryRequest))
+      this.dataChannel.send(JSON.stringify(leadCaptureRequest))
       
-      // Give the AI 3 seconds to process the functions
-      setTimeout(resolve, 3000)
+      // After a short delay, request the summary
+      setTimeout(() => {
+        if (!this.dataChannel || this.dataChannel.readyState !== 'open') {
+          resolve()
+          return
+        }
+        
+        console.log('📋 Requesting conversation summary...')
+        
+        const summaryRequest = {
+          type: 'response.create',
+          response: {
+            modalities: ['text'],
+            instructions: `Call the generate_summary function with:
+- topicsDiscussed: comma-separated list of topics from this conversation
+- keyQuestions: comma-separated list of questions asked
+- followUpActions: comma-separated list of next steps agreed upon
+- sentiment: positive, neutral, or negative`
+          }
+        }
+
+        this.dataChannel.send(JSON.stringify(summaryRequest))
+        
+        // Give time for functions to process
+        setTimeout(resolve, 2000)
+      }, 1500)
     })
   }
 

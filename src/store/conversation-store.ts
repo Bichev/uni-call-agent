@@ -40,6 +40,60 @@ const initialSimulation: SimulationState = {
   crm: { recorded: false }
 }
 
+/**
+ * Extract lead information from conversation messages as a fallback
+ */
+function extractLeadFromMessages(messages: ConversationMessage[]): Partial<LeadData> {
+  const userMessages = messages
+    .filter(m => m.role === 'user')
+    .map(m => m.content)
+    .join(' ')
+  
+  const lead: Partial<LeadData> = {}
+  
+  // Extract email
+  const emailMatch = userMessages.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/i)
+  if (emailMatch) {
+    lead.email = emailMatch[0]
+  }
+  
+  // Extract phone number (various formats)
+  const phoneMatch = userMessages.match(/(?:\+?1[-.\s]?)?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}/i)
+  if (phoneMatch) {
+    lead.phone = phoneMatch[0]
+  }
+  
+  // Try to extract name (look for patterns like "I'm X", "my name is X", "this is X")
+  const namePatterns = [
+    /(?:my name is|i'm|i am|this is|call me)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i,
+    /^([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+(?:here|speaking)/i,
+  ]
+  
+  for (const pattern of namePatterns) {
+    const match = userMessages.match(pattern)
+    if (match && match[1]) {
+      lead.name = match[1].trim()
+      break
+    }
+  }
+  
+  // Try to extract company
+  const companyPatterns = [
+    /(?:from|with|at|work for|work at)\s+([A-Z][A-Za-z0-9\s&]+?)(?:\.|,|$|\s+and|\s+I)/i,
+    /(?:company is|business is)\s+([A-Z][A-Za-z0-9\s&]+?)(?:\.|,|$)/i,
+  ]
+  
+  for (const pattern of companyPatterns) {
+    const match = userMessages.match(pattern)
+    if (match && match[1] && match[1].length > 2 && match[1].length < 50) {
+      lead.company = match[1].trim()
+      break
+    }
+  }
+  
+  return lead
+}
+
 export const useConversationStore = create<ConversationStore>()(
   persist(
     (set, get) => ({
@@ -133,10 +187,20 @@ export const useConversationStore = create<ConversationStore>()(
               messageCount: state.messages.length
             }
         
+        // Fallback: try to extract lead info from conversation if not captured
+        let leadData = state.leadData
+        if (!leadData || (!leadData.name && !leadData.email && !leadData.phone)) {
+          const extractedLead = extractLeadFromMessages(state.messages)
+          if (extractedLead.name || extractedLead.email || extractedLead.phone) {
+            leadData = { ...state.leadData, ...extractedLead }
+          }
+        }
+        
         set({
           conversationState: 'ended',
           voiceActivity: 'idle',
-          summary: updatedSummary
+          summary: updatedSummary,
+          leadData
         })
       },
       
