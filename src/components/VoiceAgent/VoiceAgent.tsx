@@ -122,11 +122,16 @@ export function VoiceAgent() {
     }
   }, [startConversation, setError])
 
-  const handleEnd = useCallback(() => {
+  const handleEnd = useCallback(async () => {
     const client = getRealtimeClient()
+    
+    // Request the AI to finalize with lead capture and summary before disconnecting
+    setVoiceActivity('thinking')
+    await client.requestFinalSummary()
+    
     client.disconnect()
     endConversation()
-  }, [endConversation])
+  }, [endConversation, setVoiceActivity])
 
   const getStatusText = () => {
     switch (conversationState) {

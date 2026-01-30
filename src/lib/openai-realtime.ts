@@ -266,6 +266,11 @@ export class RealtimeClient {
 
   private handleServerEvent(event: Record<string, unknown>) {
     const type = event.type as string
+    
+    // Log all events for debugging
+    if (type?.includes('function') || type?.includes('tool')) {
+      console.log('📞 Function/Tool event:', type, JSON.stringify(event, null, 2))
+    }
 
     switch (type) {
       case 'session.created':
@@ -311,7 +316,17 @@ export class RealtimeClient {
         break
 
       case 'response.function_call_arguments.done':
-        this.handleFunctionCall(event as { name: string; arguments: string })
+        console.log('Function call event received:', JSON.stringify(event, null, 2))
+        this.handleFunctionCall(event as { name: string; arguments: string; call_id?: string })
+        break
+
+      // Alternative function call event format
+      case 'conversation.item.created':
+        const item = (event as { item?: { type?: string; name?: string; arguments?: string; call_id?: string } }).item
+        if (item?.type === 'function_call' && item.name) {
+          console.log('Function call from conversation.item.created:', item)
+          this.handleFunctionCall({ name: item.name, arguments: item.arguments || '{}' })
+        }
         break
 
       case 'error':
@@ -405,7 +420,44 @@ export class RealtimeClient {
     this.dataChannel.send(JSON.stringify({ type: 'response.create' }))
   }
 
-  disconnect() {
+  /**
+   * Request the AI to finalize the conversation by capturing lead info and generating summary
+   */
+  requestFinalSummary(): Promise<void> {
+    return new Promise((resolve) => {
+      if (!this.dataChannel || this.dataChannel.readyState !== 'open') {
+        console.log('Data channel not ready for summary request')
+        resolve()
+        return
+      }
+
+      console.log('Requesting final summary from AI...')
+      
+      // Send a response.create with instructions to call the functions
+      const summaryRequest = {
+        type: 'response.create',
+        response: {
+          modalities: ['text'], // No audio for this final request
+          instructions: `The conversation is ending. You MUST immediately:
+1. Call the capture_lead function with ALL the contact information gathered during this conversation (name, email, phone, company, interest, preferred contact time). If you don't have some fields, leave them empty but include what you do have.
+2. Call the generate_summary function with:
+   - topicsDiscussed: comma-separated list of main topics
+   - keyQuestions: comma-separated list of questions the caller asked
+   - followUpActions: comma-separated list of next steps
+   - sentiment: positive, neutral, or negative based on the conversation
+
+Do NOT speak or generate audio. Just call both functions with the collected information.`
+        }
+      }
+
+      this.dataChannel.send(JSON.stringify(summaryRequest))
+      
+      // Give the AI 3 seconds to process the functions
+      setTimeout(resolve, 3000)
+    })
+  }
+
+  async disconnect() {
     if (this.audioLevelInterval) {
       clearInterval(this.audioLevelInterval)
       this.audioLevelInterval = null
