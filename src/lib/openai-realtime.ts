@@ -28,6 +28,7 @@ export class RealtimeClient {
   private audioLevelInterval: number | null = null
   private selectedVoice: AIVoice = 'alloy'
   private hasGreeted = false
+  private remoteAudio: HTMLAudioElement | null = null
 
   constructor() {
     this.peerConnection = null
@@ -98,12 +99,15 @@ export class RealtimeClient {
       const token = await this.getToken()
       console.log('Got ephemeral token:', token?.substring(0, 20) + '...')
 
-      // Get user media
+      // Get user media with aggressive echo cancellation for mobile
       this.localStream = await navigator.mediaDevices.getUserMedia({
         audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true
+          echoCancellation: { ideal: true },
+          noiseSuppression: { ideal: true },
+          autoGainControl: { ideal: true },
+          // Prefer lower sample rate for better echo cancellation on mobile
+          sampleRate: { ideal: 16000 },
+          channelCount: { ideal: 1 }
         }
       })
 
@@ -120,11 +124,16 @@ export class RealtimeClient {
         this.peerConnection!.addTrack(track, this.localStream!)
       })
 
-      // Handle remote audio
+      // Handle remote audio with settings to reduce feedback
       this.peerConnection.ontrack = (event) => {
         const audio = new Audio()
         audio.srcObject = event.streams[0]
+        // Reduce volume slightly to help with echo on mobile
+        audio.volume = 0.9
         audio.play().catch(console.error)
+        
+        // Store reference for potential muting
+        this.remoteAudio = audio
       }
 
       // Create data channel for events
@@ -245,9 +254,9 @@ export class RealtimeClient {
         },
         turn_detection: {
           type: 'server_vad',
-          threshold: 0.5,
-          prefix_padding_ms: 300,
-          silence_duration_ms: 500
+          threshold: 0.6,  // Higher threshold to reduce echo pickup on mobile
+          prefix_padding_ms: 400,
+          silence_duration_ms: 700  // Longer silence to avoid interrupting itself
         },
         tools: getToolDefinitions()
       }
@@ -539,6 +548,12 @@ Call BOTH functions now. Do not generate any audio or text response.`
     if (this.peerConnection) {
       this.peerConnection.close()
       this.peerConnection = null
+    }
+
+    if (this.remoteAudio) {
+      this.remoteAudio.pause()
+      this.remoteAudio.srcObject = null
+      this.remoteAudio = null
     }
 
     this.isConnected = false
