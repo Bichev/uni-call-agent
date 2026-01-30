@@ -63,17 +63,30 @@ function extractLeadFromMessages(messages: ConversationMessage[]): Partial<LeadD
     lead.phone = phoneMatch[0]
   }
   
+  // Common words that should NOT be treated as names
+  const notNames = new Set([
+    'yes', 'no', 'ok', 'okay', 'sure', 'thanks', 'thank', 'you', 'please', 'hello', 'hi',
+    'good', 'great', 'fine', 'well', 'her', 'him', 'them', 'tomorrow', 'today', 'now',
+    'here', 'there', 'this', 'that', 'the', 'sorry', 'interested', 'call', 'back',
+    'morning', 'afternoon', 'evening', 'night', 'time', 'available', 'free', 'busy'
+  ])
+  
   // Try to extract name (look for patterns like "I'm X", "my name is X", "this is X")
   const namePatterns = [
-    /(?:my name is|i'm|i am|this is|call me)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i,
-    /^([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+(?:here|speaking)/i,
+    /(?:my name is|i'm|i am|this is|call me)\s+([A-Z][a-z]{2,}(?:\s+[A-Z][a-z]{2,})?)/i,
+    /(?:it's|it is)\s+([A-Z][a-z]{2,}(?:\s+[A-Z][a-z]{2,})?)\s+(?:here|speaking|calling)/i,
   ]
   
   for (const pattern of namePatterns) {
     const match = userMessages.match(pattern)
     if (match && match[1]) {
-      lead.name = match[1].trim()
-      break
+      const potentialName = match[1].trim()
+      // Validate: at least 2 chars, not a common word, starts with capital
+      const firstWord = potentialName.split(' ')[0].toLowerCase()
+      if (potentialName.length >= 2 && !notNames.has(firstWord)) {
+        lead.name = potentialName
+        break
+      }
     }
   }
   

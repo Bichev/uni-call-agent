@@ -390,10 +390,23 @@ export class RealtimeClient {
         case 'schedule_callback':
           // Handle callback scheduling - add to lead notes
           console.log('Callback scheduled:', args)
-          const meetingNote = `Meeting requested: ${args.reason || 'Consultation'}${args.preferredDate ? ` on ${args.preferredDate}` : ''}${args.preferredTime ? ` at ${args.preferredTime}` : ''}`
+          
+          // Clean up the preferred time/date - remove common filler words
+          let cleanedTime = (args.preferredTime || args.preferredDate || '').toString()
+          const fillerWords = ['her', 'him', 'them', 'me', 'us', 'call', 'back', 'please']
+          fillerWords.forEach(word => {
+            cleanedTime = cleanedTime.replace(new RegExp(`\\b${word}\\b`, 'gi'), '').trim()
+          })
+          
+          // Only use if we have a meaningful time string
+          const preferredTime = cleanedTime.length > 2 ? cleanedTime : undefined
+          
+          const meetingNote = `Consultation requested${args.reason ? `: ${args.reason}` : ''}${preferredTime ? ` - ${preferredTime}` : ''}`
+          
           this.handlers.onLeadCaptured?.({ 
             notes: meetingNote,
-            preferredTime: args.preferredTime || args.preferredDate
+            preferredTime: preferredTime,
+            interest: args.reason || 'consultation'
           } as LeadData)
           break
       }
