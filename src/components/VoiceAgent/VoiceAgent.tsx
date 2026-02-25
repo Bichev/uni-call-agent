@@ -243,8 +243,8 @@ export function VoiceAgent() {
       </AnimatePresence>
 
       {/* Main visualization area */}
-      <div className="relative py-8">
-        <div className="flex flex-col items-center gap-6">
+      <div className="relative py-4 md:py-6">
+        <div className="flex flex-col items-center gap-4">
           {/* Glowing orb */}
           <AnimatePresence mode="wait">
             <motion.div
@@ -257,7 +257,7 @@ export function VoiceAgent() {
               <GlowingOrb 
                 activity={voiceActivity} 
                 audioLevel={audioLevel}
-                size="lg"
+                size="md"
               />
             </motion.div>
           </AnimatePresence>
@@ -284,7 +284,7 @@ export function VoiceAgent() {
       </div>
 
       {/* Conversation panel */}
-      <div className="border-t border-slate-800/50 pt-6 mb-6">
+      <div className="border-t border-slate-800/50 pt-4 mb-4">
         <ConversationPanel />
       </div>
 
@@ -300,7 +300,7 @@ export function VoiceAgent() {
       )}
 
       {/* Control bar */}
-      <div className="border-t border-slate-800/50 pt-6">
+      <div className="border-t border-slate-800/50 pt-4">
         <ControlBar
           conversationState={conversationState}
           onStart={handleStart}

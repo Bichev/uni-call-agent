@@ -12,7 +12,7 @@ export function SMSSimulation() {
   const recipientPhone = leadData?.phone || '+1 (555) 123-4567'
   const recipientName = leadData?.name || 'Customer'
 
-  const smsMessage = `Hi ${recipientName}! Thanks for speaking with CommuniKATE today. As discussed, we'll follow up with more information about our ${leadData?.interest || 'services'}. Looking forward to connecting soon! - Kate`
+  const smsMessage = `Hi ${recipientName}! Thanks for speaking with Zenith Creative today. As discussed, we'll follow up with more information about our ${leadData?.interest || 'services'}. Looking forward to connecting soon! - Sarah`
 
   const handleSendSMS = async () => {
     setStage('sending')

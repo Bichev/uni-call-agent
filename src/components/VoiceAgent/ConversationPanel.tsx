@@ -17,7 +17,7 @@ export function ConversationPanel() {
 
   if (messages.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-32 md:h-48 text-slate-500">
+      <div className="flex flex-col items-center justify-center h-20 md:h-28 text-slate-500">
         <Bot className="w-6 h-6 md:w-8 md:h-8 mb-2 opacity-50" />
         <p className="text-xs md:text-sm">Conversation will appear here</p>
       </div>

@@ -3,7 +3,7 @@ import { LeadSummary } from './components/Lead/LeadSummary'
 import { SMSSimulation } from './components/Simulation/SMSSimulation'
 import { CRMSimulation } from './components/Simulation/CRMSimulation'
 import { useConversationStore } from './store/conversation-store'
-import { Phone, ExternalLink } from 'lucide-react'
+import { Phone } from 'lucide-react'
 
 function App() {
   const { conversationState, leadData, summary } = useConversationStore()
@@ -22,24 +22,19 @@ function App() {
       <header className="relative z-10 px-4 md:px-6 py-4 md:py-6 border-b border-slate-800/30">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           {/* Logo & Brand */}
-          <a 
-            href="https://www.communikatetoday.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 md:gap-3 group"
-          >
+          <div className="flex items-center gap-2 md:gap-3 group">
             <div className="relative">
               <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center shadow-lg shadow-teal-500/20 group-hover:shadow-teal-500/40 transition-shadow">
-                <span className="text-white font-bold text-sm md:text-base tracking-tight">CK</span>
+                <span className="text-white font-bold text-sm md:text-base tracking-tight">ZC</span>
               </div>
             </div>
             <div className="hidden sm:block">
               <h1 className="text-base md:text-lg font-semibold text-white group-hover:text-teal-300 transition-colors">
-                CommuniKATE
+                Zenith Creative
               </h1>
               <p className="text-[10px] md:text-xs text-slate-500">AI Voice Assistant Demo</p>
             </div>
-          </a>
+          </div>
 
           {/* Center - Demo Badge */}
           <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/50 border border-slate-700/50">
@@ -47,30 +42,16 @@ function App() {
             <span className="text-xs text-slate-300 font-medium">Live Demo</span>
           </div>
 
-          {/* Right side - CTA */}
-          <div className="flex items-center gap-2 md:gap-4">
-            <a 
-              href="tel:+19786573Aria"
-              className="hidden sm:flex items-center gap-1.5 text-xs md:text-sm text-slate-400 hover:text-teal-400 transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span className="hidden lg:inline">Contact Us</span>
-            </a>
-            <a 
-              href="https://www.communikatetoday.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 rounded-lg bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs md:text-sm font-medium hover:bg-teal-500/20 hover:border-teal-500/50 transition-all"
-            >
-              <span>Visit Site</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
+          {/* Right side - Phone */}
+          <div className="hidden sm:flex items-center gap-1.5 text-xs md:text-sm text-slate-400">
+            <Phone className="w-3.5 h-3.5" />
+            <span>555.987.6543</span>
           </div>
         </div>
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 px-3 md:px-6 py-6 md:py-8 pb-8 md:pb-12">
+      <main className="relative z-10 px-3 md:px-6 py-4 md:py-6 pb-6 md:pb-10">
         <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
           {/* Voice Agent Section */}
           <VoiceAgent />
@@ -98,15 +79,8 @@ function App() {
             AI Voice Agent Prototype • Built with OpenAI Realtime API
           </p>
           <div className="flex items-center gap-4 text-xs text-slate-600">
-            <span>© 2024 CommuniKATE</span>
-            <a 
-              href="https://www.communikatetoday.com/privacy" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="hover:text-slate-400 transition-colors"
-            >
-              Privacy
-            </a>
+            <span>© 2026 Zenith Creative (Demo)</span>
+            <span className="text-slate-700">Fictional brand for demonstration purposes</span>
           </div>
         </div>
       </footer>

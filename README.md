@@ -92,8 +92,8 @@ uni-call-agent/
 ├── api/                    # Vercel Edge Functions
 │   └── token.ts           # OpenAI ephemeral token generation
 ├── data/                   # Business context data
-│   ├── communikate_knowledge_base.json
-│   └── communikate_knowledge_base.md
+│   ├── demo_knowledge_base.json
+│   └── demo_knowledge_base.md
 ├── public/                 # Static assets
 │   ├── icons/             # PWA icons
 │   └── favicon.svg
@@ -125,7 +125,7 @@ uni-call-agent/
 
 ### Business Context
 
-The AI is trained on the business knowledge base stored in `data/communikate_knowledge_base.json`. This includes:
+The AI is trained on the business knowledge base stored in `data/demo_knowledge_base.json`. This includes:
 
 - Company information and services
 - Pricing and packages

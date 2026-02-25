@@ -285,7 +285,7 @@ export class RealtimeClient {
       type: 'response.create',
       response: {
         modalities: ['text', 'audio'],
-        instructions: 'Introduce yourself as Aria, the AI assistant from CommuniKATE. Mention that you are an AI and offer to help with questions about branding, web design, and marketing services, or to schedule a consultation with Kate. Keep the greeting warm and concise (2-3 sentences max).'
+        instructions: 'Introduce yourself as Aria, the AI assistant from Zenith Creative. Mention that you are an AI and offer to help with questions about branding, web design, and marketing services, or to schedule a consultation with Sarah. Keep the greeting warm and concise (2-3 sentences max).'
       }
     }
 

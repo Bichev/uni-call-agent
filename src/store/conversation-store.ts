@@ -123,7 +123,7 @@ function generateSummaryFromMessages(messages: ConversationMessage[]): Partial<C
   if (allText.includes('market') || allText.includes('advertis')) topics.push('marketing')
   if (allText.includes('consult') || allText.includes('meeting') || allText.includes('schedule')) {
     topics.push('consultation')
-    followUps.push('schedule consultation with Kate')
+    followUps.push('schedule consultation with Sarah')
   }
   if (allText.includes('price') || allText.includes('cost') || allText.includes('quote')) {
     topics.push('pricing')
